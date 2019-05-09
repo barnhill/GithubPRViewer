@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.pnuema.android.githubprviewer">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme">
+
+        <meta-data
+                android:name="com.pnuema.android.githubprviewer.common.glide.GlideConfig"
+                android:value="GlideModule" />
+        <meta-data
+                android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
+                android:value="GlideModule" />
+
+        <activity
+                android:name=".diffviewer.DiffViewerActivity"
+                android:label="@string/title_activity_diff_viewer"
+                android:parentActivityName=".pullrequests.PullRequestsActivity"
+                android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.pnuema.android.githubprviewer.pullrequests.PullRequestsActivity"/>
+        </activity>
+        <activity
+                android:name=".pullrequests.PullRequestsActivity"
+                android:label="@string/title_activity_pull_requests"
+                android:parentActivityName=".repos.RepoActivity"
+                android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.pnuema.android.githubprviewer.repos.RepoActivity"/>
+        </activity>
+        <activity
+                android:name=".repos.RepoActivity"
+                android:label="@string/app_name"
+                android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

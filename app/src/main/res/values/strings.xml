@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Github PR Viewer</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_pull_requests">Pull Requests</string>
+    <string name="title_activity_diff_viewer">Diff Viewer</string>
+
+    <string name="number_hash_tag">#%d</string>
+
+    <string name="retry">Retry</string>
+    <string name="error_retrieving_repos">Unable to retrieve repos</string>
+    <string name="error_retrieving_prs">Unable to retrieve pull requests</string>
+
+    <!-- content descriptions -->
+    <string name="contentdesc_pull_request_avatar">pull request petitioner avatar</string>
+</resources>
