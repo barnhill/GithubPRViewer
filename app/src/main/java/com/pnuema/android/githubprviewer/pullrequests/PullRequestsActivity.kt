@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import com.pnuema.android.githubprviewer.R
 import com.pnuema.android.githubprviewer.common.errors.Errors
+import com.pnuema.android.githubprviewer.diffviewer.DiffViewerActivity
 import com.pnuema.android.githubprviewer.pullrequests.ui.PullModel
 import com.pnuema.android.githubprviewer.pullrequests.ui.PullsAdapter
 import com.pnuema.android.githubprviewer.pullrequests.viewmodel.PullRequestsViewModel
@@ -30,9 +31,9 @@ class PullRequestsActivity : AppCompatActivity(), IPullClicked {
     }
 
     private val viewModel by lazy { ViewModelProviders.of(this).get(PullRequestsViewModel::class.java) }
-    private lateinit var repoName: String
-    private lateinit var username: String
     private var snackbar: Snackbar? = null
+    lateinit var repoName: String
+    lateinit var username: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,8 +58,13 @@ class PullRequestsActivity : AppCompatActivity(), IPullClicked {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    override fun onPullClicked(repoData: PullModel) {
-        //TODO navigate to diff viewer
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
+    override fun onPullClicked(pullData: PullModel) {
+        DiffViewerActivity.launch(this, username, repoName, pullData.number.toString())
     }
 
     /**
