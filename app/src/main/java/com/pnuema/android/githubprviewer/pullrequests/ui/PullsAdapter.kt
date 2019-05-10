@@ -2,8 +2,8 @@ package com.pnuema.android.githubprviewer.pullrequests.ui
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.pnuema.android.githubprviewer.pullrequests.IPullClicked
-import com.pnuema.android.githubprviewer.pullrequests.viewholder.PullViewHolder
+import com.pnuema.android.githubprviewer.pullrequests.ui.model.PullModel
+import com.pnuema.android.githubprviewer.pullrequests.ui.viewholder.PullViewHolder
 
 class PullsAdapter(private val clickListener: IPullClicked): RecyclerView.Adapter<PullViewHolder>() {
     private val items: ArrayList<PullModel> = ArrayList()

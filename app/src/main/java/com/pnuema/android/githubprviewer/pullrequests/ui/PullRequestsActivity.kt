@@ -1,4 +1,4 @@
-package com.pnuema.android.githubprviewer.pullrequests
+package com.pnuema.android.githubprviewer.pullrequests.ui
 
 import android.content.Context
 import android.content.Intent
@@ -11,9 +11,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import com.pnuema.android.githubprviewer.R
 import com.pnuema.android.githubprviewer.common.errors.Errors
-import com.pnuema.android.githubprviewer.diffviewer.DiffViewerActivity
-import com.pnuema.android.githubprviewer.pullrequests.ui.PullModel
-import com.pnuema.android.githubprviewer.pullrequests.ui.PullsAdapter
+import com.pnuema.android.githubprviewer.diffviewer.ui.DiffViewerActivity
+import com.pnuema.android.githubprviewer.pullrequests.ui.model.PullModel
 import com.pnuema.android.githubprviewer.pullrequests.viewmodel.PullRequestsViewModel
 import kotlinx.android.synthetic.main.activity_pull_requests.*
 import kotlinx.android.synthetic.main.content_pull_requests.*
@@ -32,8 +31,8 @@ class PullRequestsActivity : AppCompatActivity(), IPullClicked {
 
     private val viewModel by lazy { ViewModelProviders.of(this).get(PullRequestsViewModel::class.java) }
     private var snackbar: Snackbar? = null
-    lateinit var repoName: String
-    lateinit var username: String
+    private lateinit var repoName: String
+    private lateinit var username: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,11 +47,10 @@ class PullRequestsActivity : AppCompatActivity(), IPullClicked {
 
         viewModel.getPullRequests(username, repoName)
         viewModel.pullRequests.observe(this, Observer { pullRequests ->
-            (pulls_recycler.adapter as PullsAdapter).setItems(pullRequests)
-        })
-
-        viewModel.pullRequestsError.observe(this, Observer { errorMsgRes ->
-            toggleErrorMessage(errorMsgRes)
+            when (pullRequests) {
+                null -> toggleErrorMessage(R.string.error_retrieving_prs)
+                else -> (pulls_recycler.adapter as PullsAdapter).setItems(pullRequests)
+            }
         })
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

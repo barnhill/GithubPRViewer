@@ -1,6 +1,6 @@
-package com.pnuema.android.githubprviewer.diffviewer.parser
+package com.pnuema.android.githubprviewer.parser
 
-import com.pnuema.android.githubprviewer.diffviewer.parser.model.DiffFile
+import com.pnuema.android.githubprviewer.parser.model.DiffFile
 
 /**
  * Parses raw diff files into Files/Hunks/ChangeSets

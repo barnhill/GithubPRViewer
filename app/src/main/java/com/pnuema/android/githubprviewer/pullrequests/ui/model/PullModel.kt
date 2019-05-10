@@ -1,4 +1,4 @@
-package com.pnuema.android.githubprviewer.pullrequests.ui
+package com.pnuema.android.githubprviewer.pullrequests.ui.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

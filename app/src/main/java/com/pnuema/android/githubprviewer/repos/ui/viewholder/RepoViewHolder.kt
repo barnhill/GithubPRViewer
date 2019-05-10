@@ -1,10 +1,10 @@
-package com.pnuema.android.githubprviewer.repos.viewholder
+package com.pnuema.android.githubprviewer.repos.ui.viewholder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.pnuema.android.githubprviewer.R
-import com.pnuema.android.githubprviewer.repos.IRepoClicked
+import com.pnuema.android.githubprviewer.repos.ui.IRepoClicked
 import com.pnuema.android.githubprviewer.repos.ui.model.RepoModel
 import kotlinx.android.synthetic.main.repo_item.view.*
 

@@ -1,4 +1,4 @@
-package com.pnuema.android.githubprviewer.diffviewer.parser.model
+package com.pnuema.android.githubprviewer.parser.model
 
 /**
  * Segmentation of a .diff that corresponds to the changes made to a file

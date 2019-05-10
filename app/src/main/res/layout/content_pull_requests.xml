@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:showIn="@layout/activity_pull_requests"
-        tools:context=".pullrequests.PullRequestsActivity">
+        tools:context=".pullrequests.ui.PullRequestsActivity">
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/pulls_recycler"

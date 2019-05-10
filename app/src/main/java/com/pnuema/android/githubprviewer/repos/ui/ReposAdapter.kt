@@ -2,9 +2,8 @@ package com.pnuema.android.githubprviewer.repos.ui
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.pnuema.android.githubprviewer.repos.IRepoClicked
 import com.pnuema.android.githubprviewer.repos.ui.model.RepoModel
-import com.pnuema.android.githubprviewer.repos.viewholder.RepoViewHolder
+import com.pnuema.android.githubprviewer.repos.ui.viewholder.RepoViewHolder
 
 class ReposAdapter(private val clickListener: IRepoClicked): RecyclerView.Adapter<RepoViewHolder>() {
     private val items: ArrayList<RepoModel> = ArrayList()

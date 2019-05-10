@@ -1,4 +1,4 @@
-package com.pnuema.android.githubprviewer.diffviewer.parser.model
+package com.pnuema.android.githubprviewer.parser.model
 
 import java.util.regex.Pattern
 

@@ -1,4 +1,4 @@
-package com.pnuema.android.githubprviewer.diffviewer
+package com.pnuema.android.githubprviewer.diffviewer.ui
 
 import android.content.Context
 import android.content.Intent
@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import com.pnuema.android.githubprviewer.R
 import com.pnuema.android.githubprviewer.common.errors.Errors
-import com.pnuema.android.githubprviewer.diffviewer.parser.DiffParser
 import com.pnuema.android.githubprviewer.diffviewer.viewmodel.DiffViewModel
+import com.pnuema.android.githubprviewer.parser.DiffParser
 import kotlinx.android.synthetic.main.activity_diff_viewer.*
 
 class DiffViewerActivity : AppCompatActivity() {
@@ -44,15 +44,15 @@ class DiffViewerActivity : AppCompatActivity() {
         prNum = intent.getStringExtra(PARAM_PR_NUM)
         diffUrl = intent.getStringExtra(PARAM_DIFF_URL)
 
-        viewModel.getDiffFile(diffUrl)
-        viewModel.diffFile.observe(this, Observer { diff ->
+        viewModel.getDiffFile(diffUrl).observe(this, Observer { diff ->
+            if (diff == null) {
+                toggleErrorMessage(R.string.error_retrieving_pr_details)
+                return@Observer
+            }
+
             DiffParser(diff)
 
             //TODO show diff results from parsing in UI
-        })
-
-        viewModel.diffFileError.observe(this, Observer { errorMsgRes ->
-            toggleErrorMessage(errorMsgRes)
         })
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

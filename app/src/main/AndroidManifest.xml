@@ -19,25 +19,25 @@
                 android:value="GlideModule" />
 
         <activity
-                android:name=".diffviewer.DiffViewerActivity"
+                android:name=".diffviewer.ui.DiffViewerActivity"
                 android:label="@string/title_activity_diff_viewer"
-                android:parentActivityName=".pullrequests.PullRequestsActivity"
+                android:parentActivityName=".pullrequests.ui.PullRequestsActivity"
                 android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.pnuema.android.githubprviewer.pullrequests.PullRequestsActivity"/>
+                    android:value="com.pnuema.android.githubprviewer.pullrequests.ui.PullRequestsActivity"/>
         </activity>
         <activity
-                android:name=".pullrequests.PullRequestsActivity"
+                android:name=".pullrequests.ui.PullRequestsActivity"
                 android:label="@string/title_activity_pull_requests"
-                android:parentActivityName=".repos.RepoActivity"
+                android:parentActivityName=".repos.ui.RepoActivity"
                 android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.pnuema.android.githubprviewer.repos.RepoActivity"/>
+                    android:value="com.pnuema.android.githubprviewer.repos.ui.RepoActivity"/>
         </activity>
         <activity
-                android:name=".repos.RepoActivity"
+                android:name=".repos.ui.RepoActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

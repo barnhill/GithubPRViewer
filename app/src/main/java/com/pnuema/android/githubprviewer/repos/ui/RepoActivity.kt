@@ -1,4 +1,4 @@
-package com.pnuema.android.githubprviewer.repos
+package com.pnuema.android.githubprviewer.repos.ui
 
 import android.os.Bundle
 import android.view.Menu
@@ -11,8 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import com.pnuema.android.githubprviewer.R
 import com.pnuema.android.githubprviewer.common.errors.Errors
-import com.pnuema.android.githubprviewer.pullrequests.PullRequestsActivity
-import com.pnuema.android.githubprviewer.repos.ui.ReposAdapter
+import com.pnuema.android.githubprviewer.pullrequests.ui.PullRequestsActivity
 import com.pnuema.android.githubprviewer.repos.ui.model.RepoModel
 import com.pnuema.android.githubprviewer.repos.viewmodel.RepoViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -33,11 +32,10 @@ class RepoActivity : AppCompatActivity(), IRepoClicked {
 
         viewModel.getRepos(username)
         viewModel.repos.observe(this, Observer { repoList ->
-            (repos_recycler.adapter as ReposAdapter).setItems(repoList)
-        })
-
-        viewModel.reposError.observe(this, Observer { errorMsgRes ->
-            toggleErrorMessage(errorMsgRes)
+            when (repoList) {
+                null -> toggleErrorMessage(R.string.error_retrieving_repos)
+                else -> (repos_recycler.adapter as ReposAdapter).setItems(repoList)
+            }
         })
     }
 

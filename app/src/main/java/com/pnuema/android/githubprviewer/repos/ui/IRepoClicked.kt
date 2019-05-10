@@ -1,4 +1,4 @@
-package com.pnuema.android.githubprviewer.repos
+package com.pnuema.android.githubprviewer.repos.ui
 
 import com.pnuema.android.githubprviewer.repos.ui.model.RepoModel
 
