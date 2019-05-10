@@ -1,6 +1,5 @@
 package com.pnuema.android.githubprviewer.requests
 
-import com.pnuema.android.githubprviewer.diffviewer.model.PullRequestDetails
 import com.pnuema.android.githubprviewer.pullrequests.model.Pull
 import com.pnuema.android.githubprviewer.repos.model.Repo
 import retrofit2.Call
@@ -17,7 +16,4 @@ interface GithubService {
 
     @GET("/repos/{username}/{repo_name}/pulls?state=open$commonParams")
     fun getPullRequestsByRepo(@Path("username") username: String, @Path("repo_name") repoName: String): Call<ArrayList<Pull>>
-
-    @GET("/repos/{username}/{repo_name}/pulls/{pull_number}?$commonParams")
-    fun getPullRequestDetails(@Path("username") username: String, @Path("repo_name") repoName: String, @Path("pull_number") pullNumber: String): Call<PullRequestDetails>
 }

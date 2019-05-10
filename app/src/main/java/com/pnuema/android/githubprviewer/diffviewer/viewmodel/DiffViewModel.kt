@@ -4,35 +4,43 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pnuema.android.githubprviewer.R
 import com.pnuema.android.githubprviewer.common.errors.Errors
-import com.pnuema.android.githubprviewer.diffviewer.model.PullRequestDetails
-import com.pnuema.android.githubprviewer.requests.GitHubProvider
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import java.io.IOException
 
 class DiffViewModel: ViewModel() {
-    val pullRequestDetails: MutableLiveData<PullRequestDetails> = MutableLiveData()
-    val pullRequestDetailsError: MutableLiveData<Int> = MutableLiveData()
+    val diffFile: MutableLiveData<String> = MutableLiveData()
+    val diffFileError: MutableLiveData<Int> = MutableLiveData()
+
+    private val okHttpClient: OkHttpClient by lazy {
+        OkHttpClient.Builder()
+            .followRedirects(true)
+            .followSslRedirects(true)
+            .build()
+    }
 
     /**
      * Get pull request details to display diff
      */
-    fun getPullRequestDetails(username: String, repoName: String, pullNumber: String) {
-        pullRequestDetailsError.postValue(Errors.CLEAR_ERROR)
-        GitHubProvider.service.getPullRequestDetails(username, repoName, pullNumber).enqueue(object : Callback<PullRequestDetails> {
-            override fun onFailure(call: Call<PullRequestDetails>, t: Throwable) {
-                pullRequestDetailsError.postValue(R.string.error_retrieving_pr_details)
-            }
+    fun getDiffFile(diffUrl: String) {
+        diffFileError.postValue(Errors.CLEAR_ERROR)
 
-            override fun onResponse(call: Call<PullRequestDetails>, response: Response<PullRequestDetails>) {
+        GlobalScope.launch {
+            try {
+                val response = okHttpClient.newCall(Request.Builder().url(diffUrl).build()).execute()
+
                 if (!response.isSuccessful || response.body() == null) {
-                    onFailure(call, Throwable("Failed response"))
-                    return
+                    diffFileError.postValue(R.string.error_retrieving_pr_details)
+                    return@launch
                 }
 
-                //successful response
-                pullRequestDetails.postValue(response.body())
+                //success
+                diffFile.postValue(response.body()?.string())
+            } catch (ex: IOException) {
+                diffFileError.postValue(R.string.error_retrieving_pr_details)
             }
-        })
+        }
     }
 }

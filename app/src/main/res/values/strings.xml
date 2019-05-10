@@ -9,7 +9,7 @@
     <string name="retry">Retry</string>
     <string name="error_retrieving_repos">Unable to retrieve repos</string>
     <string name="error_retrieving_prs">Unable to retrieve pull requests</string>
-    <string name="error_retrieving_pr_details">Unable to retrieve pull request details</string>
+    <string name="error_retrieving_pr_details">Unable to retrieve diff</string>
 
     <!-- content descriptions -->
     <string name="contentdesc_pull_request_avatar">pull request petitioner avatar</string>
