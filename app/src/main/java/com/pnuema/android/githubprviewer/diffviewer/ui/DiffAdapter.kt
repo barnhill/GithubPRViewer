@@ -2,13 +2,8 @@ package com.pnuema.android.githubprviewer.diffviewer.ui
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.pnuema.android.githubprviewer.diffviewer.ui.model.DiffLineModel
-import com.pnuema.android.githubprviewer.diffviewer.ui.model.FileHeaderModel
-import com.pnuema.android.githubprviewer.diffviewer.ui.model.HunkHeaderModel
-import com.pnuema.android.githubprviewer.diffviewer.ui.model.IDiffItem
-import com.pnuema.android.githubprviewer.diffviewer.ui.viewholder.DiffLineViewHolder
-import com.pnuema.android.githubprviewer.diffviewer.ui.viewholder.FileHeaderViewHolder
-import com.pnuema.android.githubprviewer.diffviewer.ui.viewholder.HunkHeaderViewHolder
+import com.pnuema.android.githubprviewer.diffviewer.ui.model.*
+import com.pnuema.android.githubprviewer.diffviewer.ui.viewholder.*
 
 class DiffAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val items: ArrayList<IDiffItem> = ArrayList()
@@ -24,6 +19,8 @@ class DiffAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             DiffLineViewHolder.type -> DiffLineViewHolder(parent)
             HunkHeaderViewHolder.type -> HunkHeaderViewHolder(parent)
             FileHeaderViewHolder.type -> FileHeaderViewHolder(parent)
+            BinaryFileViewHolder.type -> BinaryFileViewHolder(parent)
+            DeletedFileViewHolder.type -> DeletedFileViewHolder(parent)
             else -> throw IllegalArgumentException("Invalid view type")
         }
     }
@@ -45,6 +42,8 @@ class DiffAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             is DiffLineModel -> DiffLineViewHolder.type
             is HunkHeaderModel -> HunkHeaderViewHolder.type
             is FileHeaderModel -> FileHeaderViewHolder.type
+            is BinaryFileModel -> BinaryFileViewHolder.type
+            is DeletedFileModel -> DeletedFileViewHolder.type
             else -> throw IllegalArgumentException("Invalid data model sent to diff adapter")
         }
     }

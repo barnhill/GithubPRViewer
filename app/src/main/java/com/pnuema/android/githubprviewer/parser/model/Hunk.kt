@@ -21,6 +21,7 @@ data class Hunk (private val rawHunk: String) {
         //parse header to get start line numbers
         header = splitHunk.first().trim()
 
+        //find starting line counts for each side
         header.split(" ").forEach {
             when {
                 it.startsWith("-") -> //start of left
@@ -28,6 +29,11 @@ data class Hunk (private val rawHunk: String) {
                 it.startsWith("+") -> //start of right
                     changeRightStartLineNumber = Integer.parseInt(it.split(",").first().replace("+", ""))
             }
+        }
+
+        //no changes to display so short circuit here (binary file ... etc)
+        if (splitHunk.size <= 1) {
+            return
         }
 
         splitHunk[1].split(System.lineSeparator()).filter { it.isNotBlank() }.forEach {

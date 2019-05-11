@@ -1,10 +1,9 @@
 package com.pnuema.android.githubprviewer.repos.ui
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -18,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
 class RepoActivity : AppCompatActivity(), IRepoClicked {
-    private val username = "jakewharton"//TODO change this to be an input value
+    private val username = "chrisbanes" //TODO change this to be an input value
     private val viewModel by lazy { ViewModelProviders.of(this).get(RepoViewModel::class.java) }
     private var snackbar: Snackbar? = null
 
@@ -30,25 +29,7 @@ class RepoActivity : AppCompatActivity(), IRepoClicked {
         repos_recycler.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         repos_recycler.adapter = ReposAdapter(this)
 
-        viewModel.getRepos(username)
-        viewModel.repos.observe(this, Observer { repoList ->
-            when (repoList) {
-                null -> toggleErrorMessage(R.string.error_retrieving_repos)
-                else -> (repos_recycler.adapter as ReposAdapter).setItems(repoList)
-            }
-        })
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
+        setupDataLoading()
     }
 
     override fun onRepoClicked(repoData: RepoModel) {
@@ -56,7 +37,33 @@ class RepoActivity : AppCompatActivity(), IRepoClicked {
     }
 
     /**
-     * show or hide the error message based on the error message res provided (-1 is passed to clear/hide the error)
+     * Setup observers to populate screen, trigger data to load, and setup pull to refresh
+     */
+    private fun setupDataLoading() {
+        //load data if its not already loaded (rotation)
+        if (viewModel.repos.value.isNullOrEmpty()) {
+            repos_swipe_refresh.isRefreshing = true
+            viewModel.getRepos(username)
+        }
+
+        //observe for data changes and update the list, or show error message if error encountered
+        viewModel.repos.observe(this, Observer { repoList ->
+            repos_swipe_refresh.isRefreshing = false
+            when (repoList) {
+                null -> toggleErrorMessage(R.string.error_retrieving_repos)
+                else -> (repos_recycler.adapter as ReposAdapter).setItems(repoList)
+            }
+        })
+
+        //handle pull to refresh
+        repos_swipe_refresh.setColorSchemeColors(ContextCompat.getColor(this, R.color.accent))
+        repos_swipe_refresh.setOnRefreshListener {
+            viewModel.getRepos(username)
+        }
+    }
+
+    /**
+     * show or hide the error message based on the error message res provided ({@link Errors#CLEAR_ERROR} is passed to clear/hide the error)
      */
     private fun toggleErrorMessage(errorMsgRes: Int) {
         if (errorMsgRes == Errors.CLEAR_ERROR) {

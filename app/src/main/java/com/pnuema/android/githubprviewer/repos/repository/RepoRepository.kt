@@ -1,7 +1,6 @@
 package com.pnuema.android.githubprviewer.repos.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.MediatorLiveData
 import com.pnuema.android.githubprviewer.repos.model.Repo
 import com.pnuema.android.githubprviewer.repos.ui.model.RepoModel
 import com.pnuema.android.githubprviewer.requests.GitHubProvider
@@ -13,8 +12,8 @@ class RepoRepository {
     /**
      * Get list of repositories for a given user
      */
-    fun getRepos(username: String): LiveData<ArrayList<RepoModel>> {
-        val resultTarget: MutableLiveData<ArrayList<RepoModel>> = MutableLiveData()
+    fun getRepos(username: String): MediatorLiveData<ArrayList<RepoModel>> {
+        val resultTarget: MediatorLiveData<ArrayList<RepoModel>> = MediatorLiveData()
         GitHubProvider.service.getReposByUser(username).enqueue(object : Callback<ArrayList<Repo>> {
             override fun onFailure(call: Call<ArrayList<Repo>>, t: Throwable) {
                 return resultTarget.postValue(null)

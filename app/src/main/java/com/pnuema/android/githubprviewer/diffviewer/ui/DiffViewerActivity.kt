@@ -49,7 +49,7 @@ class DiffViewerActivity : AppCompatActivity() {
 
         diff_recycler.adapter = adapter
 
-        viewModel.getDiffFile(diffUrl).observe(this, Observer { diff ->
+        viewModel.diffFile.observe(this, Observer { diff ->
             if (diff == null) {
                 toggleErrorMessage(R.string.error_retrieving_pr_details)
                 return@Observer
@@ -57,6 +57,7 @@ class DiffViewerActivity : AppCompatActivity() {
 
             adapter.setItems(DiffListBuilder(DiffParser(diff)).buildDataList())
         })
+        viewModel.getDiffFile(diffUrl)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "$repoName:$prNum"
@@ -68,7 +69,7 @@ class DiffViewerActivity : AppCompatActivity() {
     }
 
     /**
-     * show or hide the error message based on the error message res provided (-1 is passed to clear/hide the error)
+     * Show or hide the error message based on the error message res provided ({@link Errors#CLEAR_ERROR} is passed to clear/hide the error)
      */
     private fun toggleErrorMessage(errorMsgRes: Int) {
         if (errorMsgRes == Errors.CLEAR_ERROR) {

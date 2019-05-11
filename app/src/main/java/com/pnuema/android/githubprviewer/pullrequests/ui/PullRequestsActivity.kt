@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -45,13 +46,7 @@ class PullRequestsActivity : AppCompatActivity(), IPullClicked {
         pulls_recycler.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         pulls_recycler.adapter = PullsAdapter(this)
 
-        viewModel.getPullRequests(username, repoName)
-        viewModel.pullRequests.observe(this, Observer { pullRequests ->
-            when (pullRequests) {
-                null -> toggleErrorMessage(R.string.error_retrieving_prs)
-                else -> (pulls_recycler.adapter as PullsAdapter).setItems(pullRequests)
-            }
-        })
+        setupDataLoading()
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
@@ -66,7 +61,33 @@ class PullRequestsActivity : AppCompatActivity(), IPullClicked {
     }
 
     /**
-     * show or hide the error message based on the error message res provided (-1 is passed to clear/hide the error)
+     * Setup observers to populate screen, trigger data to load, and setup pull to refresh
+     */
+    private fun setupDataLoading() {
+        //load data if its not already loaded (rotation)
+        if (viewModel.pullRequests.value.isNullOrEmpty()) {
+            pulls_swipe_refresh.isRefreshing = true
+            viewModel.getPullRequests(username, repoName)
+        }
+
+        //observe for data changes and update the list, or show error message if error encountered
+        viewModel.pullRequests.observe(this, Observer { pullRequests ->
+            pulls_swipe_refresh.isRefreshing = false
+            when (pullRequests) {
+                null -> toggleErrorMessage(R.string.error_retrieving_prs)
+                else -> (pulls_recycler.adapter as PullsAdapter).setItems(pullRequests)
+            }
+        })
+
+        //handle pull to refresh
+        pulls_swipe_refresh.setColorSchemeColors(ContextCompat.getColor(this, R.color.accent))
+        pulls_swipe_refresh.setOnRefreshListener {
+            viewModel.getPullRequests(username, repoName)
+        }
+    }
+
+    /**
+     * show or hide the error message based on the error message res provided ({@link Errors#CLEAR_ERROR} is passed to clear/hide the error)
      */
     private fun toggleErrorMessage(errorMsgRes: Int) {
         if (errorMsgRes == Errors.CLEAR_ERROR) {

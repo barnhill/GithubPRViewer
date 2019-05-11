@@ -1,11 +1,11 @@
 package com.pnuema.android.githubprviewer.diffviewer.ui
 
-import com.pnuema.android.githubprviewer.diffviewer.ui.model.DiffLineModel
-import com.pnuema.android.githubprviewer.diffviewer.ui.model.FileHeaderModel
-import com.pnuema.android.githubprviewer.diffviewer.ui.model.HunkHeaderModel
-import com.pnuema.android.githubprviewer.diffviewer.ui.model.IDiffItem
+import com.pnuema.android.githubprviewer.diffviewer.ui.model.*
 import com.pnuema.android.githubprviewer.parser.DiffParser
 
+/**
+ * Class to help build out the list of UI data models for diff files
+ */
 class DiffListBuilder(private val diffParser: DiffParser) {
     companion object {
         private const val NO_NEWLINE_MESSAGE = "\\ No newline at end of file"
@@ -18,15 +18,33 @@ class DiffListBuilder(private val diffParser: DiffParser) {
         LEFT, RIGHT
     }
 
+    /**
+     * Build the diff ui data model list to send to the adapter for display
+     */
     fun buildDataList(): ArrayList<IDiffItem> {
         val items : ArrayList<IDiffItem> = ArrayList()
 
         diffParser.files.forEach {file ->
             items.add(FileHeaderModel(file.getFileHeader()))
+
+            //check for deleted file header
+            if (file.isFileDeleted()) {
+                items.add(DeletedFileModel())
+                return@forEach
+            }
+
+            //check for binary file header
+            if (file.isBinaryFile()) {
+                items.add(BinaryFileModel())
+                return@forEach
+            }
+
+            //regular change log so show the changes
             file.hunks.forEach { hunk ->
                 items.add(HunkHeaderModel(hunk.getHunkHeader()))
                 lineLeft = hunk.changeLeftStartLineNumber
                 lineRight = hunk.changeRightStartLineNumber
+
                 when {
                     hunk.changesLeft.isEmpty() -> //no changes on left side
                         hunk.changesRight.forEach { line2 ->
@@ -60,6 +78,9 @@ class DiffListBuilder(private val diffParser: DiffParser) {
         return items
     }
 
+    /**
+     * Gets the file line number
+     */
     private fun getLineNum(line: String, file: FileType): String {
         if (line.isBlank()) {
             return ""

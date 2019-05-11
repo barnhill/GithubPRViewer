@@ -1,7 +1,7 @@
 package com.pnuema.android.githubprviewer.diffviewer.repository
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.MediatorLiveData
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
@@ -13,10 +13,10 @@ class DiffRepository {
      * Get pull request details to display diff
      */
     fun getDiffFile(diffUrl: String): LiveData<String> {
-        val diffFile: MutableLiveData<String> = MutableLiveData()
+        val diffFile: MediatorLiveData<String> = MediatorLiveData()
         GlobalScope.launch {
             try {
-                val response = okHttpClient.newCall(Request.Builder().url(diffUrl).build()).execute()
+                val response = okHttpClient.newCall(Request.Builder().url(diffUrl).addHeader("Accept", "application/vnd.github.v3.raw+json.diff") .build()).execute()
 
                 if (!response.isSuccessful || response.body() == null) {
                     diffFile.postValue(null)
