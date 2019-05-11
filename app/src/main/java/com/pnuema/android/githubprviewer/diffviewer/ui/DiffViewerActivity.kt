@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
@@ -13,7 +14,6 @@ import com.pnuema.android.githubprviewer.common.errors.Errors
 import com.pnuema.android.githubprviewer.diffviewer.viewmodel.DiffViewModel
 import com.pnuema.android.githubprviewer.parser.DiffParser
 import kotlinx.android.synthetic.main.activity_diff_viewer.*
-import kotlinx.android.synthetic.main.activity_diff_viewer.diff_coordinator
 import kotlinx.android.synthetic.main.content_diff_viewer.*
 
 class DiffViewerActivity : AppCompatActivity() {
@@ -49,13 +49,18 @@ class DiffViewerActivity : AppCompatActivity() {
 
         diff_recycler.adapter = adapter
 
+        diff_loading_indicator.setColorSchemeColors(ContextCompat.getColor(this, R.color.accent))
+        diff_loading_indicator.isEnabled = false
+        diff_loading_indicator.isRefreshing = true
         viewModel.diffFile.observe(this, Observer { diff ->
             if (diff == null) {
+                diff_loading_indicator.isRefreshing = false
                 toggleErrorMessage(R.string.error_retrieving_pr_details)
                 return@Observer
             }
 
             adapter.setItems(DiffListBuilder(DiffParser(diff)).buildDataList())
+            diff_loading_indicator.isRefreshing = false
         })
         viewModel.getDiffFile(diffUrl)
 
