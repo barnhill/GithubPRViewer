@@ -2,7 +2,6 @@ package com.pnuema.android.githubprviewer.repos.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.pnuema.android.githubprviewer.common.Repository
 import com.pnuema.android.githubprviewer.repos.model.Repo
 import com.pnuema.android.githubprviewer.repos.ui.model.RepoModel
 import com.pnuema.android.githubprviewer.requests.GitHubProvider
@@ -10,7 +9,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RepoRepository: Repository {
+class RepoRepository {
     /**
      * Get list of repositories for a given user
      */
@@ -29,8 +28,8 @@ class RepoRepository: Repository {
 
                 //successful response
                 val repoList = ArrayList<RepoModel>()
-                response.body()?.forEach { repo ->
-                    repoList.add(RepoModel(repo.name, repo.description, repo.fullName))
+                response.body()?.filter { !it.archived && !it.disabled && !it.fork }?.forEach { repo ->
+                    repoList.add(RepoModel(repo.name, repo.description?:"", repo.fullName))
                 }
 
                 return resultTarget.postValue(repoList)

@@ -2,14 +2,13 @@ package com.pnuema.android.githubprviewer.diffviewer.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.pnuema.android.githubprviewer.common.Repository
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
 
-class DiffRepository: Repository {
+class DiffRepository {
     /**
      * Get pull request details to display diff
      */

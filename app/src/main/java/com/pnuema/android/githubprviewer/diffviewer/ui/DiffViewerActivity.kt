@@ -13,6 +13,8 @@ import com.pnuema.android.githubprviewer.common.errors.Errors
 import com.pnuema.android.githubprviewer.diffviewer.viewmodel.DiffViewModel
 import com.pnuema.android.githubprviewer.parser.DiffParser
 import kotlinx.android.synthetic.main.activity_diff_viewer.*
+import kotlinx.android.synthetic.main.activity_diff_viewer.diff_coordinator
+import kotlinx.android.synthetic.main.content_diff_viewer.*
 
 class DiffViewerActivity : AppCompatActivity() {
     companion object {
@@ -31,6 +33,7 @@ class DiffViewerActivity : AppCompatActivity() {
 
     private val viewModel by lazy { ViewModelProviders.of(this).get(DiffViewModel::class.java) }
     private var snackbar: Snackbar? = null
+    private val adapter: DiffAdapter = DiffAdapter()
     private lateinit var repoName: String
     private lateinit var prNum: String
     private lateinit var diffUrl: String
@@ -44,15 +47,15 @@ class DiffViewerActivity : AppCompatActivity() {
         prNum = intent.getStringExtra(PARAM_PR_NUM)
         diffUrl = intent.getStringExtra(PARAM_DIFF_URL)
 
+        diff_recycler.adapter = adapter
+
         viewModel.getDiffFile(diffUrl).observe(this, Observer { diff ->
             if (diff == null) {
                 toggleErrorMessage(R.string.error_retrieving_pr_details)
                 return@Observer
             }
 
-            DiffParser(diff)
-
-            //TODO show diff results from parsing in UI
+            adapter.setItems(DiffListBuilder(DiffParser(diff)).buildDataList())
         })
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

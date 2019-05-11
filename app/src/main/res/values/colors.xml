@@ -8,14 +8,31 @@
     <color name="errorBackground">@color/background_dark</color>
     <color name="placeholder_person_image_color">@color/primary_light</color>
 
+    <color name="fileHeaderBackground">@color/background_primary_header</color>
+    <color name="hunkHeaderBackground">@color/background_secondary_header</color>
+    <color name="colorAddition">@color/background_add</color>
+    <color name="colorSubtraction">@color/background_sub</color>
+    <color name="colorEmpty">@color/background_empty</color>
+    <color name="colorNeutral">@color/background_none</color>
+
     <!-- color palette -->
-    <color name="primary">#673AB7</color>
-    <color name="primary_dark">#512DA8</color>
-    <color name="primary_light">#D1C4E9</color>
-    <color name="accent">#FFEB3B</color>
+    <color name="primary">#03A9F4</color>
+    <color name="primary_dark">#0288D1</color>
+    <color name="primary_light">#B3E5FC</color>
+    <color name="accent">#FF5722</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#757575</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
+
     <color name="background_dark">#323232</color>
+
+    <color name="background_add">#DBFFE5</color>
+    <color name="background_sub">#FEE5E8</color>
+    <color name="background_none">#FFFFFF</color>
+    <color name="background_empty">#F8F9FA</color>
+
+    <color name="background_primary_header">#DEDEDE</color>
+    <color name="background_secondary_header">#EFEFEF</color>
+
 </resources>

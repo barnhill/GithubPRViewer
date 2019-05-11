@@ -37,6 +37,12 @@ data class Hunk (private val rawHunk: String) {
                 it.startsWith("+") -> //addition, belongs in change right
                     changesRight.add(it)
                 else -> {
+                    while (changesLeft.count() > changesRight.count()) {
+                        changesRight.add("")
+                    }
+                    while (changesRight.count() > changesLeft.count()) {
+                        changesLeft.add("")
+                    }
                     changesLeft.add(it)
                     changesRight.add(it)
                 }

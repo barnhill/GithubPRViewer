@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
 class RepoActivity : AppCompatActivity(), IRepoClicked {
-    private val username = "barnhill"//TODO change this to be an input value
+    private val username = "jakewharton"//TODO change this to be an input value
     private val viewModel by lazy { ViewModelProviders.of(this).get(RepoViewModel::class.java) }
     private var snackbar: Snackbar? = null
 

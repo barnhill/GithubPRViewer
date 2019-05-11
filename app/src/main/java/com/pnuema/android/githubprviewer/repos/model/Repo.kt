@@ -34,7 +34,7 @@ data class Repo(
     val defaultBranch: String,
     @SerializedName("deployments_url")
     val deploymentsUrl: String,
-    val description: String,
+    val description: String?,
     val disabled: Boolean,
     @SerializedName("downloads_url")
     val downloadsUrl: String,

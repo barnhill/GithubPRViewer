@@ -2,7 +2,6 @@ package com.pnuema.android.githubprviewer.pullrequests.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.pnuema.android.githubprviewer.common.Repository
 import com.pnuema.android.githubprviewer.pullrequests.model.Pull
 import com.pnuema.android.githubprviewer.pullrequests.ui.model.PullModel
 import com.pnuema.android.githubprviewer.requests.GitHubProvider
@@ -10,7 +9,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PullRequestRepository: Repository {
+class PullRequestRepository {
     /**
      * Get list of pull requests for a given repo
      */
