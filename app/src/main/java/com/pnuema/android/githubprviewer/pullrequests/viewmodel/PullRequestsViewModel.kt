@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import com.pnuema.android.githubprviewer.pullrequests.repository.PullRequestRepository
-import com.pnuema.android.githubprviewer.pullrequests.ui.model.PullModel
+import com.pnuema.android.githubprviewer.pullrequests.ui.model.IPullModel
 
 class PullRequestsViewModel: ViewModel() {
-    val pullRequests: LiveData<ArrayList<PullModel>> = MediatorLiveData()
+    val pullRequests: LiveData<ArrayList<IPullModel>> = MediatorLiveData()
     private val pullRequestRepository: PullRequestRepository = PullRequestRepository()
 
     /**

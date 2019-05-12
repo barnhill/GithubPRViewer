@@ -14,4 +14,4 @@ data class PullModel(
         val targetBranch: String,
         val sourceBranch: String,
         val htmlUrl: String
-) : Parcelable
+) : Parcelable, IPullModel

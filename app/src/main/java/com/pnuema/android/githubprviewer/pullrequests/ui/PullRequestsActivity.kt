@@ -73,9 +73,12 @@ class PullRequestsActivity : AppCompatActivity(), IPullClicked {
         //observe for data changes and update the list, or show error message if error encountered
         viewModel.pullRequests.observe(this, Observer { pullRequests ->
             pulls_swipe_refresh.isRefreshing = false
+
             when (pullRequests) {
                 null -> toggleErrorMessage(R.string.error_retrieving_prs)
-                else -> (pulls_recycler.adapter as PullsAdapter).setItems(pullRequests)
+                else -> {
+                    (pulls_recycler.adapter as PullsAdapter).setItems(pullRequests)
+                }
             }
         })
 

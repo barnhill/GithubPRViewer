@@ -2,6 +2,7 @@ package com.pnuema.android.githubprviewer.pullrequests.ui.viewholder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions
@@ -11,7 +12,13 @@ import com.pnuema.android.githubprviewer.pullrequests.ui.IPullClicked
 import com.pnuema.android.githubprviewer.pullrequests.ui.model.PullModel
 import kotlinx.android.synthetic.main.pull_item.view.*
 
-class PullViewHolder(parent: ViewGroup): RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.pull_item, parent, false)) {
+class PullRequestViewHolder(parent: ViewGroup): RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(layout, parent, false)) {
+    companion object {
+        @LayoutRes
+        private const val layout = R.layout.pull_item
+        const val type = layout
+    }
+
     fun bind(model: PullModel, clickListener: IPullClicked) {
 
         GlideApp.with(itemView.context)

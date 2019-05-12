@@ -3,6 +3,7 @@ package com.pnuema.android.githubprviewer.pullrequests.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.pnuema.android.githubprviewer.pullrequests.model.Pull
+import com.pnuema.android.githubprviewer.pullrequests.ui.model.IPullModel
 import com.pnuema.android.githubprviewer.pullrequests.ui.model.PullModel
 import com.pnuema.android.githubprviewer.requests.GitHubProvider
 import retrofit2.Call
@@ -13,8 +14,8 @@ class PullRequestRepository {
     /**
      * Get list of pull requests for a given repo
      */
-    fun getPullRequests(username: String, repoName: String): LiveData<ArrayList<PullModel>> {
-        val resultTarget: MutableLiveData<ArrayList<PullModel>> = MutableLiveData()
+    fun getPullRequests(username: String, repoName: String): LiveData<ArrayList<IPullModel>> {
+        val resultTarget: MutableLiveData<ArrayList<IPullModel>> = MutableLiveData()
 
         GitHubProvider.service.getPullRequestsByRepo(username, repoName).enqueue(object : Callback<ArrayList<Pull>> {
             override fun onFailure(call: Call<ArrayList<Pull>>, t: Throwable) {
@@ -28,7 +29,7 @@ class PullRequestRepository {
                 }
 
                 //successful response
-                val repoList = ArrayList<PullModel>()
+                val repoList = ArrayList<IPullModel>()
                 response.body()?.forEach { pull ->
                     repoList.add(
                         PullModel(
