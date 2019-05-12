@@ -57,7 +57,7 @@ class PullRequestsActivity : AppCompatActivity(), IPullClicked {
     }
 
     override fun onPullClicked(pullData: PullModel) {
-        DiffViewerActivity.launch(this, pullData.number.toString(), repoName, pullData.diffUrl)
+        DiffViewerActivity.launch(this, pullData)
     }
 
     /**

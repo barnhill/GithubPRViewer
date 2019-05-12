@@ -35,7 +35,12 @@ class PullRequestRepository {
                             pull.number,
                             pull.title,
                             pull.diffUrl,
-                            pull.user.avatarUrl
+                            pull.user.avatarUrl,
+                            pull.user.login,
+                            pull.base.repo.owner.login,
+                            pull.base.ref,
+                            pull.head.ref,
+                            pull.htmlUrl
                         )
                     )
                 }

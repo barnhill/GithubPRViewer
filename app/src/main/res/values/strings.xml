@@ -9,6 +9,8 @@
     <string name="display_binary_file">Binary file not shown.</string>
     <string name="display_deleted_file">File deleted.</string>
     <string name="number_hash_tag">#%d</string>
+    <string name="meta_toward_arrow">-></string>
+    <string name="meta_pr_number_format">#%1$d</string>
 
     <!-- snackbar error messages -->
     <string name="retry">Retry</string>
@@ -19,5 +21,6 @@
     <!-- content descriptions -->
     <string name="contentdesc_pull_request_avatar">pull request petitioner avatar</string>
     <string name="contentdesc_diff_file_header_icon">diff file header icon</string>
+    <string name="contentdesc_diff_meta_author_avatar">diff file authors avatar</string>
 
 </resources>

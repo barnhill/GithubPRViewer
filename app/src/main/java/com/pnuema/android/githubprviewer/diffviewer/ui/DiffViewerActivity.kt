@@ -12,40 +12,33 @@ import com.google.android.material.snackbar.Snackbar
 import com.pnuema.android.githubprviewer.R
 import com.pnuema.android.githubprviewer.common.errors.Errors
 import com.pnuema.android.githubprviewer.diffviewer.viewmodel.DiffViewModel
+import com.pnuema.android.githubprviewer.diffviewer.viewmodel.DiffViewModelFactory
 import com.pnuema.android.githubprviewer.parser.DiffParser
+import com.pnuema.android.githubprviewer.pullrequests.ui.model.PullModel
 import kotlinx.android.synthetic.main.activity_diff_viewer.*
 import kotlinx.android.synthetic.main.content_diff_viewer.*
 
 class DiffViewerActivity : AppCompatActivity() {
     companion object {
-        const val PARAM_PR_NUM: String = "PARAM_PR_NUM"
-        const val PARAM_REPO: String = "PARAM_REPO"
-        const val PARAM_DIFF_URL: String = "PARAM_DIFF_URL"
+        const val PARAM_PULL_META: String = "PARAM_PULL_META"
 
-        fun launch(context: Context, prNum: String, repoName: String, diffUrl: String) {
+        fun launch(context: Context, model: PullModel) {
             context.startActivity(
                 Intent(context, DiffViewerActivity::class.java)
-                    .putExtra(PARAM_REPO, repoName)
-                    .putExtra(PARAM_PR_NUM, prNum)
-                    .putExtra(PARAM_DIFF_URL, diffUrl))
+                    .putExtra(PARAM_PULL_META, model))
         }
     }
 
-    private val viewModel by lazy { ViewModelProviders.of(this).get(DiffViewModel::class.java) }
+    private lateinit var viewModel: DiffViewModel
     private var snackbar: Snackbar? = null
     private val adapter: DiffAdapter = DiffAdapter()
-    private lateinit var repoName: String
-    private lateinit var prNum: String
-    private lateinit var diffUrl: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_diff_viewer)
         setSupportActionBar(toolbar)
 
-        repoName = intent.getStringExtra(PARAM_REPO)
-        prNum = intent.getStringExtra(PARAM_PR_NUM)
-        diffUrl = intent.getStringExtra(PARAM_DIFF_URL)
+        viewModel = ViewModelProviders.of(this, DiffViewModelFactory(intent.getParcelableExtra(PARAM_PULL_META))).get(DiffViewModel::class.java)
 
         diff_recycler.adapter = adapter
 
@@ -62,10 +55,10 @@ class DiffViewerActivity : AppCompatActivity() {
             adapter.setItems(DiffListBuilder(DiffParser(diff)).buildDataList())
             diff_loading_indicator.isRefreshing = false
         })
-        viewModel.getDiffFile(diffUrl)
+        viewModel.getDiffFile()
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "$repoName:$prNum"
+        supportActionBar?.title = viewModel.diffMetaData.title
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -83,7 +76,7 @@ class DiffViewerActivity : AppCompatActivity() {
             }
         } else {
             snackbar = Errors.showError(diff_coordinator, errorMsgRes, R.string.retry, View.OnClickListener {
-                viewModel.getDiffFile(diffUrl)
+                viewModel.getDiffFile()
             })
         }
     }

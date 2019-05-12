@@ -4,16 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import com.pnuema.android.githubprviewer.diffviewer.repository.DiffRepository
+import com.pnuema.android.githubprviewer.pullrequests.ui.model.PullModel
 
-class DiffViewModel: ViewModel() {
+class DiffViewModel(val diffMetaData: PullModel): ViewModel() {
     val diffFile: LiveData<String> = MediatorLiveData()
     private val diffRepository: DiffRepository = DiffRepository()
 
     /**
      * Get diff file from the url provided
      */
-    fun getDiffFile(diffUrl: String) {
-        val source = diffRepository.getDiffFile(diffUrl)
+    fun getDiffFile() {
+        val source = diffRepository.getDiffFile(diffMetaData.diffUrl)
         (diffFile as MediatorLiveData).addSource(source) {
             diffFile.postValue(it)
             diffFile.removeSource(source)
