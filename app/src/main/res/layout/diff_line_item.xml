@@ -49,7 +49,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/one_line_number"
         app:layout_constraintEnd_toStartOf="@+id/guideMidPoint"
-        tools:text="TextView"/>
+        tools:text="Map(document.getElementById('map'), {"
+        tools:background="@color/background_sub"/>
 
     <TextView
         android:layout_width="0dp"
@@ -64,6 +65,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/two_line_number"
-        tools:text="TextView"/>
+        tools:text="Map(document.getElementById('map'), {"
+        tools:background="@color/background_add"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
