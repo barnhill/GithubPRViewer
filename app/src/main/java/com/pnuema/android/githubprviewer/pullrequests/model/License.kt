@@ -1,6 +1,5 @@
 package com.pnuema.android.githubprviewer.pullrequests.model
 
-
 import com.google.gson.annotations.SerializedName
 
 data class License(
