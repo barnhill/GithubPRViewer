@@ -1,4 +1,4 @@
-# GithubPRViewer [![Build Status](https://www.travis-ci.org/barnhill/GithubPRViewer.svg?branch=master)](https://www.travis-ci.org/barnhill/GithubPRViewer) [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
+# GithubPRViewer ![Android CI](https://github.com/barnhill/GithubPRViewer/workflows/Android%20CI/badge.svg) [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
 Displays Github pull requests with diff viewer
 
 This project was created to give an example of how to list pull request from a user on Github, view the pull request.
