@@ -7,7 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.pnuema.android.githubprviewer.R
 import com.pnuema.android.githubprviewer.common.errors.Errors
@@ -38,7 +38,7 @@ class DiffViewerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_diff_viewer)
         setSupportActionBar(toolbar)
 
-        viewModel = ViewModelProviders.of(this, DiffViewModelFactory(intent.getParcelableExtra(PARAM_PULL_META))).get(DiffViewModel::class.java)
+        viewModel = ViewModelProvider(this, DiffViewModelFactory(intent.getParcelableExtra(PARAM_PULL_META)!!)).get(DiffViewModel::class.java)
 
         diff_recycler.adapter = adapter
 

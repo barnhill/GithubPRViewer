@@ -5,7 +5,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import com.pnuema.android.githubprviewer.R
@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.content_main.*
 
 class RepoActivity : AppCompatActivity(), IRepoClicked {
     private val username = "chrisbanes" //TODO change this to be an input value
-    private val viewModel by lazy { ViewModelProviders.of(this).get(RepoViewModel::class.java) }
+    private val viewModel by lazy { ViewModelProvider(this).get(RepoViewModel::class.java) }
     private var snackbar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

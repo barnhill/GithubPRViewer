@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.request.RequestOptions
 import com.pnuema.android.githubprviewer.R
 import com.pnuema.android.githubprviewer.common.glide.GlideApp
@@ -27,7 +27,7 @@ class DiffDetailsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(activity!!).get(DiffViewModel::class.java)
+        viewModel = ViewModelProvider(activity!!).get(DiffViewModel::class.java)
 
         diff_meta_author.text = viewModel.diffMetaData.author
         diff_meta_source.text = viewModel.diffMetaData.sourceBranch

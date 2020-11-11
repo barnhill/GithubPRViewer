@@ -7,7 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import com.pnuema.android.githubprviewer.R
@@ -30,7 +30,7 @@ class PullRequestsActivity : AppCompatActivity(), IPullClicked {
         }
     }
 
-    private val viewModel by lazy { ViewModelProviders.of(this).get(PullRequestsViewModel::class.java) }
+    private val viewModel by lazy { ViewModelProvider(this).get(PullRequestsViewModel::class.java) }
     private var snackbar: Snackbar? = null
     private lateinit var repoName: String
     private lateinit var username: String
@@ -40,8 +40,8 @@ class PullRequestsActivity : AppCompatActivity(), IPullClicked {
         setContentView(R.layout.activity_pull_requests)
         setSupportActionBar(toolbar)
 
-        repoName = intent.getStringExtra(PARAM_REPO)
-        username = intent.getStringExtra(PARAM_USER)
+        repoName = intent.getStringExtra(PARAM_REPO)!!
+        username = intent.getStringExtra(PARAM_USER)!!
 
         pulls_recycler.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         pulls_recycler.adapter = PullsAdapter(this)
