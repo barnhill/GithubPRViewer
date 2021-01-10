@@ -27,7 +27,7 @@ class DiffDetailsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(activity!!).get(DiffViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(DiffViewModel::class.java)
 
         diff_meta_author.text = viewModel.diffMetaData.author
         diff_meta_source.text = viewModel.diffMetaData.sourceBranch

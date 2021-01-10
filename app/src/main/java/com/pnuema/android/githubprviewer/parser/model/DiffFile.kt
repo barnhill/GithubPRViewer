@@ -1,5 +1,8 @@
 package com.pnuema.android.githubprviewer.parser.model
 
+import java.util.*
+import kotlin.collections.ArrayList
+
 /**
  * Segmentation of a .diff that corresponds to the changes made to a file
  */
@@ -38,10 +41,10 @@ data class DiffFile(private val rawFile: String) {
     }
 
     fun isFileDeleted(): Boolean {
-        return header.toLowerCase().contains("${System.lineSeparator()}deleted file")
+        return header.toLowerCase(Locale.ROOT).contains("${System.lineSeparator()}deleted file")
     }
 
     fun isBinaryFile(): Boolean {
-        return header.toLowerCase().contains("${System.lineSeparator()}binary file")
+        return header.toLowerCase(Locale.ROOT).contains("${System.lineSeparator()}binary file")
     }
 }

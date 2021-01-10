@@ -18,8 +18,8 @@
         android:src="@drawable/ic_file"
         android:layout_marginTop="2dp"
         android:layout_marginBottom="2dp"
-        android:tint="@color/primary_text"
         android:contentDescription="@string/contentdesc_diff_file_header_icon"
+        app:tint="@color/primary_text"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
