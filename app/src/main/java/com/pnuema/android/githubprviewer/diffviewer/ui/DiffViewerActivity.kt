@@ -11,12 +11,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.pnuema.android.githubprviewer.R
 import com.pnuema.android.githubprviewer.common.errors.Errors
+import com.pnuema.android.githubprviewer.databinding.ActivityDiffViewerBinding
 import com.pnuema.android.githubprviewer.diffviewer.viewmodel.DiffViewModel
 import com.pnuema.android.githubprviewer.diffviewer.viewmodel.DiffViewModelFactory
 import com.pnuema.android.githubprviewer.parser.DiffParser
 import com.pnuema.android.githubprviewer.pullrequests.ui.model.PullModel
-import kotlinx.android.synthetic.main.activity_diff_viewer.*
-import kotlinx.android.synthetic.main.content_diff_viewer.*
 
 class DiffViewerActivity : AppCompatActivity() {
     companion object {
@@ -30,30 +29,33 @@ class DiffViewerActivity : AppCompatActivity() {
     }
 
     private lateinit var viewModel: DiffViewModel
+    private lateinit var binding: ActivityDiffViewerBinding
     private var snackbar: Snackbar? = null
     private val adapter: DiffAdapter = DiffAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_diff_viewer)
-        setSupportActionBar(toolbar)
+        binding = ActivityDiffViewerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
         viewModel = ViewModelProvider(this, DiffViewModelFactory(intent.getParcelableExtra(PARAM_PULL_META)!!)).get(DiffViewModel::class.java)
 
-        diff_recycler.adapter = adapter
+        binding.diffViewerContentInclude.diffRecycler.adapter = adapter
 
-        diff_loading_indicator.setColorSchemeColors(ContextCompat.getColor(this, R.color.accent))
-        diff_loading_indicator.isEnabled = false
-        diff_loading_indicator.isRefreshing = true
+        val loadingIndicator = binding.diffViewerContentInclude.diffLoadingIndicator
+        loadingIndicator.setColorSchemeColors(ContextCompat.getColor(this, R.color.accent))
+        loadingIndicator.isEnabled = false
+        loadingIndicator.isRefreshing = true
         viewModel.diffFile.observe(this, Observer { diff ->
             if (diff == null) {
-                diff_loading_indicator.isRefreshing = false
+                loadingIndicator.isRefreshing = false
                 toggleErrorMessage(R.string.error_retrieving_pr_details)
                 return@Observer
             }
 
             adapter.setItems(DiffListBuilder(DiffParser(diff)).buildDataList())
-            diff_loading_indicator.isRefreshing = false
+            loadingIndicator.isRefreshing = false
         })
         viewModel.getDiffFile()
 
@@ -75,7 +77,7 @@ class DiffViewerActivity : AppCompatActivity() {
                 snackbar?.dismiss()
             }
         } else {
-            snackbar = Errors.showError(diff_coordinator, errorMsgRes, R.string.retry, View.OnClickListener {
+            snackbar = Errors.showError(binding.diffCoordinator, errorMsgRes, R.string.retry, View.OnClickListener {
                 viewModel.getDiffFile()
             })
         }

@@ -12,11 +12,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import com.pnuema.android.githubprviewer.R
 import com.pnuema.android.githubprviewer.common.errors.Errors
+import com.pnuema.android.githubprviewer.databinding.ActivityPullRequestsBinding
 import com.pnuema.android.githubprviewer.diffviewer.ui.DiffViewerActivity
 import com.pnuema.android.githubprviewer.pullrequests.ui.model.PullModel
 import com.pnuema.android.githubprviewer.pullrequests.viewmodel.PullRequestsViewModel
-import kotlinx.android.synthetic.main.activity_pull_requests.*
-import kotlinx.android.synthetic.main.content_pull_requests.*
 
 class PullRequestsActivity : AppCompatActivity(), IPullClicked {
     companion object {
@@ -34,17 +33,20 @@ class PullRequestsActivity : AppCompatActivity(), IPullClicked {
     private var snackbar: Snackbar? = null
     private lateinit var repoName: String
     private lateinit var username: String
+    private lateinit var binding: ActivityPullRequestsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pull_requests)
-        setSupportActionBar(toolbar)
+        binding = ActivityPullRequestsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
         repoName = intent.getStringExtra(PARAM_REPO)!!
         username = intent.getStringExtra(PARAM_USER)!!
 
-        pulls_recycler.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        pulls_recycler.adapter = PullsAdapter(this)
+        val recycler = binding.pullRequestsInclude.pullsRecycler
+        recycler.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        recycler.adapter = PullsAdapter(this)
 
         setupDataLoading()
 
@@ -65,26 +67,27 @@ class PullRequestsActivity : AppCompatActivity(), IPullClicked {
      */
     private fun setupDataLoading() {
         //load data if its not already loaded (rotation)
+        val refresh = binding.pullRequestsInclude.pullsSwipeRefresh
         if (viewModel.pullRequests.value.isNullOrEmpty()) {
-            pulls_swipe_refresh.isRefreshing = true
+            refresh.isRefreshing = true
             viewModel.getPullRequests(username, repoName)
         }
 
         //observe for data changes and update the list, or show error message if error encountered
         viewModel.pullRequests.observe(this, Observer { pullRequests ->
-            pulls_swipe_refresh.isRefreshing = false
+            refresh.isRefreshing = false
 
             when (pullRequests) {
                 null -> toggleErrorMessage(R.string.error_retrieving_prs)
                 else -> {
-                    (pulls_recycler.adapter as PullsAdapter).setItems(pullRequests)
+                    (binding.pullRequestsInclude.pullsRecycler.adapter as PullsAdapter).setItems(pullRequests)
                 }
             }
         })
 
         //handle pull to refresh
-        pulls_swipe_refresh.setColorSchemeColors(ContextCompat.getColor(this, R.color.accent))
-        pulls_swipe_refresh.setOnRefreshListener {
+        refresh.setColorSchemeColors(ContextCompat.getColor(this, R.color.accent))
+        refresh.setOnRefreshListener {
             viewModel.getPullRequests(username, repoName)
         }
     }
@@ -98,7 +101,7 @@ class PullRequestsActivity : AppCompatActivity(), IPullClicked {
                 snackbar?.dismiss()
             }
         } else {
-            snackbar = Errors.showError(pulls_coordinator, errorMsgRes, R.string.retry, View.OnClickListener {
+            snackbar = Errors.showError(binding.pullsCoordinator, errorMsgRes, R.string.retry, View.OnClickListener {
                 viewModel.getPullRequests(username, repoName)
             })
         }

@@ -1,6 +1,7 @@
 package com.pnuema.android.githubprviewer.repos.ui
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -10,24 +11,26 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import com.pnuema.android.githubprviewer.R
 import com.pnuema.android.githubprviewer.common.errors.Errors
+import com.pnuema.android.githubprviewer.databinding.ActivityMainBinding
 import com.pnuema.android.githubprviewer.pullrequests.ui.PullRequestsActivity
 import com.pnuema.android.githubprviewer.repos.ui.model.RepoModel
 import com.pnuema.android.githubprviewer.repos.viewmodel.RepoViewModel
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
 
 class RepoActivity : AppCompatActivity(), IRepoClicked {
     private val username = "chrisbanes" //TODO change this to be an input value
     private val viewModel by lazy { ViewModelProvider(this).get(RepoViewModel::class.java) }
     private var snackbar: Snackbar? = null
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setSupportActionBar(binding.toolbar)
 
-        repos_recycler.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        repos_recycler.adapter = ReposAdapter(this)
+        binding.contentMainInclude.reposRecycler.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        binding.contentMainInclude.reposRecycler.adapter = ReposAdapter(this)
+
+        setContentView(binding.root)
 
         setupDataLoading()
     }
@@ -41,23 +44,24 @@ class RepoActivity : AppCompatActivity(), IRepoClicked {
      */
     private fun setupDataLoading() {
         //load data if its not already loaded (rotation)
+        val refreshView = binding.contentMainInclude.reposSwipeRefresh
         if (viewModel.repos.value.isNullOrEmpty()) {
-            repos_swipe_refresh.isRefreshing = true
+            refreshView.isRefreshing = true
             viewModel.getRepos(username)
         }
 
         //observe for data changes and update the list, or show error message if error encountered
         viewModel.repos.observe(this, Observer { repoList ->
-            repos_swipe_refresh.isRefreshing = false
+            refreshView.isRefreshing = false
             when (repoList) {
                 null -> toggleErrorMessage(R.string.error_retrieving_repos)
-                else -> (repos_recycler.adapter as ReposAdapter).setItems(repoList)
+                else -> (binding.contentMainInclude.reposRecycler.adapter as ReposAdapter).setItems(repoList)
             }
         })
 
         //handle pull to refresh
-        repos_swipe_refresh.setColorSchemeColors(ContextCompat.getColor(this, R.color.accent))
-        repos_swipe_refresh.setOnRefreshListener {
+        refreshView.setColorSchemeColors(ContextCompat.getColor(this, R.color.accent))
+        refreshView.setOnRefreshListener {
             viewModel.getRepos(username)
         }
     }
@@ -71,7 +75,7 @@ class RepoActivity : AppCompatActivity(), IRepoClicked {
                 snackbar?.dismiss()
             }
         } else {
-            snackbar = Errors.showError(repos_coordinator, errorMsgRes, R.string.retry, View.OnClickListener {
+            snackbar = Errors.showError(binding.reposCoordinator, errorMsgRes, R.string.retry, View.OnClickListener {
                 viewModel.getRepos(username)
             })
         }

@@ -3,15 +3,17 @@ package com.pnuema.android.githubprviewer.repos.ui.viewholder
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.pnuema.android.githubprviewer.R
+import com.pnuema.android.githubprviewer.databinding.RepoItemBinding
 import com.pnuema.android.githubprviewer.repos.ui.IRepoClicked
 import com.pnuema.android.githubprviewer.repos.ui.model.RepoModel
-import kotlinx.android.synthetic.main.repo_item.view.*
 
-class RepoViewHolder(parent: ViewGroup): RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.repo_item, parent, false)) {
+class RepoViewHolder(
+    parent: ViewGroup,
+    private val binding: RepoItemBinding = RepoItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+): RecyclerView.ViewHolder(binding.root) {
     fun bind(model: RepoModel, clickListener: IRepoClicked) {
-        itemView.repo_name.text = model.repoName
-        itemView.repo_description.text = model.description
+        binding.repoName.text = model.repoName
+        binding.repoDescription.text = model.description
 
         itemView.setOnClickListener {
             clickListener.onRepoClicked(model)

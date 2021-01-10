@@ -5,10 +5,13 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.pnuema.android.githubprviewer.R
+import com.pnuema.android.githubprviewer.databinding.FileHeaderItemBinding
 import com.pnuema.android.githubprviewer.diffviewer.ui.model.FileHeaderModel
-import kotlinx.android.synthetic.main.file_header_item.view.*
 
-class FileHeaderViewHolder(parent: ViewGroup): RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(layout, parent, false)) {
+class FileHeaderViewHolder(
+    parent: ViewGroup,
+    private val binding: FileHeaderItemBinding = FileHeaderItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+): RecyclerView.ViewHolder(binding.root) {
     companion object {
         @LayoutRes
         private const val layout = R.layout.file_header_item
@@ -16,6 +19,6 @@ class FileHeaderViewHolder(parent: ViewGroup): RecyclerView.ViewHolder(LayoutInf
     }
 
     fun bind(model: FileHeaderModel) {
-        itemView.diff_file_header_text.text = model.header
+        binding.diffFileHeaderText.text = model.header
     }
 }

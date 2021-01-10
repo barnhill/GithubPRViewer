@@ -41,6 +41,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_diff_viewer"/>
+    <include android:id="@+id/diff_viewer_content_include" layout="@layout/content_diff_viewer"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

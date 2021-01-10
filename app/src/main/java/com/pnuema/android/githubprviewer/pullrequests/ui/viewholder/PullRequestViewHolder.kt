@@ -8,11 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions
 import com.pnuema.android.githubprviewer.R
 import com.pnuema.android.githubprviewer.common.glide.GlideApp
+import com.pnuema.android.githubprviewer.databinding.PullItemBinding
 import com.pnuema.android.githubprviewer.pullrequests.ui.IPullClicked
 import com.pnuema.android.githubprviewer.pullrequests.ui.model.PullModel
-import kotlinx.android.synthetic.main.pull_item.view.*
 
-class PullRequestViewHolder(parent: ViewGroup): RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(layout, parent, false)) {
+class PullRequestViewHolder(
+    parent: ViewGroup,
+    private val binding: PullItemBinding = PullItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+): RecyclerView.ViewHolder(binding.root) {
     companion object {
         @LayoutRes
         private const val layout = R.layout.pull_item
@@ -25,12 +28,12 @@ class PullRequestViewHolder(parent: ViewGroup): RecyclerView.ViewHolder(LayoutIn
             .load(model.avatarUrl)
             .apply(RequestOptions.circleCropTransform())
             .placeholder(ContextCompat.getDrawable(itemView.context, R.drawable.account))
-            .into(itemView.pull_user_avatar)
+            .into(binding.pullUserAvatar)
 
-        itemView.pull_name.text = model.title
-        itemView.pull_description.text = itemView.context.getString(R.string.number_hash_tag, model.number)
+        binding.pullName.text = model.title
+        binding.pullDescription.text = itemView.context.getString(R.string.number_hash_tag, model.number)
 
-        itemView.setOnClickListener {
+        binding.root.setOnClickListener {
             clickListener.onPullClicked(model)
         }
     }

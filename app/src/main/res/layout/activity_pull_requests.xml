@@ -22,6 +22,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_pull_requests"/>
+    <include android:id="@+id/pull_requests_include" layout="@layout/content_pull_requests"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

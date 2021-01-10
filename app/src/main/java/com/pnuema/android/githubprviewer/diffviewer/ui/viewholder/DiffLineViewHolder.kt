@@ -6,10 +6,13 @@ import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.pnuema.android.githubprviewer.R
+import com.pnuema.android.githubprviewer.databinding.DiffLineItemBinding
 import com.pnuema.android.githubprviewer.diffviewer.ui.model.DiffLineModel
-import kotlinx.android.synthetic.main.diff_line_item.view.*
 
-class DiffLineViewHolder(parent: ViewGroup): RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(layout, parent, false)) {
+class DiffLineViewHolder(
+    parent: ViewGroup,
+    private val binding: DiffLineItemBinding = DiffLineItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+): RecyclerView.ViewHolder(binding.root) {
     companion object {
         @LayoutRes
         private const val layout = R.layout.diff_line_item
@@ -18,31 +21,31 @@ class DiffLineViewHolder(parent: ViewGroup): RecyclerView.ViewHolder(LayoutInfla
 
     fun bind(model: DiffLineModel) {
         //clear background
-        itemView.one_line_number.background = ContextCompat.getDrawable(itemView.context, R.color.colorNeutral)
-        itemView.one_text.background = ContextCompat.getDrawable(itemView.context, R.color.colorNeutral)
-        itemView.two_line_number.background = ContextCompat.getDrawable(itemView.context, R.color.colorNeutral)
-        itemView.two_text.background = ContextCompat.getDrawable(itemView.context, R.color.colorNeutral)
+        binding.oneLineNumber.background = ContextCompat.getDrawable(itemView.context, R.color.colorNeutral)
+        binding.oneText.background = ContextCompat.getDrawable(itemView.context, R.color.colorNeutral)
+        binding.twoLineNumber.background = ContextCompat.getDrawable(itemView.context, R.color.colorNeutral)
+        binding.twoText.background = ContextCompat.getDrawable(itemView.context, R.color.colorNeutral)
 
         //line in file 1
-        itemView.one_line_number.text = model.line1Num
-        itemView.one_text.text = model.line1
+        binding.oneLineNumber.text = model.line1Num
+        binding.oneText.text = model.line1
         if (model.isSubtraction()) {
-            itemView.one_line_number.background = ContextCompat.getDrawable(itemView.context, R.color.colorSubtraction)
-            itemView.one_text.background = ContextCompat.getDrawable(itemView.context, R.color.colorSubtraction)
+            binding.oneLineNumber.background = ContextCompat.getDrawable(itemView.context, R.color.colorSubtraction)
+            binding.oneText.background = ContextCompat.getDrawable(itemView.context, R.color.colorSubtraction)
         } else if (model.isLine1Empty()) {
-            itemView.one_line_number.background = ContextCompat.getDrawable(itemView.context, R.color.colorEmpty)
-            itemView.one_text.background = ContextCompat.getDrawable(itemView.context, R.color.colorEmpty)
+            binding.oneLineNumber.background = ContextCompat.getDrawable(itemView.context, R.color.colorEmpty)
+            binding.oneText.background = ContextCompat.getDrawable(itemView.context, R.color.colorEmpty)
         }
 
         //line in file 2
-        itemView.two_line_number.text = model.line2Num
-        itemView.two_text.text = model.line2
+        binding.twoLineNumber.text = model.line2Num
+        binding.twoText.text = model.line2
         if (model.isAddition()) {
-            itemView.two_line_number.background = ContextCompat.getDrawable(itemView.context, R.color.colorAddition)
-            itemView.two_text.background = ContextCompat.getDrawable(itemView.context, R.color.colorAddition)
+            binding.twoLineNumber.background = ContextCompat.getDrawable(itemView.context, R.color.colorAddition)
+            binding.twoText.background = ContextCompat.getDrawable(itemView.context, R.color.colorAddition)
         } else if (model.isLine2Empty()) {
-            itemView.two_line_number.background = ContextCompat.getDrawable(itemView.context, R.color.colorEmpty)
-            itemView.two_text.background = ContextCompat.getDrawable(itemView.context, R.color.colorEmpty)
+            binding.twoLineNumber.background = ContextCompat.getDrawable(itemView.context, R.color.colorEmpty)
+            binding.twoText.background = ContextCompat.getDrawable(itemView.context, R.color.colorEmpty)
         }
     }
 }
