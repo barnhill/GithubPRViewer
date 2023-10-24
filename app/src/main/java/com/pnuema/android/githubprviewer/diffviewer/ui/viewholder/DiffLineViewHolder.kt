@@ -15,8 +15,8 @@ class DiffLineViewHolder(
 ): RecyclerView.ViewHolder(binding.root) {
     companion object {
         @LayoutRes
-        private const val layout = R.layout.diff_line_item
-        const val type = layout
+        private val layout = R.layout.diff_line_item
+        val type = layout
     }
 
     fun bind(model: DiffLineModel) {

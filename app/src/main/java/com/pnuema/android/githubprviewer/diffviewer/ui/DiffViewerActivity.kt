@@ -39,7 +39,7 @@ class DiffViewerActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        viewModel = ViewModelProvider(this, DiffViewModelFactory(intent.getParcelableExtra(PARAM_PULL_META)!!)).get(DiffViewModel::class.java)
+        viewModel = ViewModelProvider(this, DiffViewModelFactory(intent.getParcelableExtra(PARAM_PULL_META)!!))[DiffViewModel::class.java]
 
         binding.diffViewerContentInclude.diffRecycler.adapter = adapter
 

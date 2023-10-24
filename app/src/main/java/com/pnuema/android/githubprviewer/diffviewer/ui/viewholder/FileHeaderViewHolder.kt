@@ -14,8 +14,8 @@ class FileHeaderViewHolder(
 ): RecyclerView.ViewHolder(binding.root) {
     companion object {
         @LayoutRes
-        private const val layout = R.layout.file_header_item
-        const val type = layout
+        private val layout = R.layout.file_header_item
+        val type = layout
     }
 
     fun bind(model: FileHeaderModel) {

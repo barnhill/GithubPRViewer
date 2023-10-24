@@ -18,8 +18,8 @@ class PullRequestViewHolder(
 ): RecyclerView.ViewHolder(binding.root) {
     companion object {
         @LayoutRes
-        private const val layout = R.layout.pull_item
-        const val type = layout
+        private val layout = R.layout.pull_item
+        val type = layout
     }
 
     fun bind(model: PullModel, clickListener: IPullClicked) {

@@ -9,7 +9,7 @@ import com.pnuema.android.githubprviewer.R
 class NoPullRequestsViewHolder(parent: ViewGroup): RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(layout, parent, false)) {
     companion object {
         @LayoutRes
-        private const val layout = R.layout.no_pulls_item
-        const val type = layout
+        private val layout = R.layout.no_pulls_item
+        val type = layout
     }
 }
