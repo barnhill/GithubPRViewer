@@ -41,10 +41,10 @@ data class DiffFile(private val rawFile: String) {
     }
 
     fun isFileDeleted(): Boolean {
-        return header.toLowerCase(Locale.ROOT).contains("${System.lineSeparator()}deleted file")
+        return header.lowercase(Locale.ROOT).contains("${System.lineSeparator()}deleted file")
     }
 
     fun isBinaryFile(): Boolean {
-        return header.toLowerCase(Locale.ROOT).contains("${System.lineSeparator()}binary file")
+        return header.lowercase(Locale.ROOT).contains("${System.lineSeparator()}binary file")
     }
 }

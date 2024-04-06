@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.pnuema.android.githubprviewer.R
-import com.pnuema.android.githubprviewer.common.glide.GlideApp
 import com.pnuema.android.githubprviewer.databinding.PullItemBinding
 import com.pnuema.android.githubprviewer.pullrequests.ui.IPullClicked
 import com.pnuema.android.githubprviewer.pullrequests.ui.model.PullModel
@@ -24,7 +24,7 @@ class PullRequestViewHolder(
 
     fun bind(model: PullModel, clickListener: IPullClicked) {
 
-        GlideApp.with(itemView.context)
+        Glide.with(itemView.context)
             .load(model.avatarUrl)
             .apply(RequestOptions.circleCropTransform())
             .placeholder(ContextCompat.getDrawable(itemView.context, R.drawable.account))

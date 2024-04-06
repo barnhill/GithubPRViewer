@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.pnuema.android.githubprviewer.R
-import com.pnuema.android.githubprviewer.common.glide.GlideApp
 import com.pnuema.android.githubprviewer.databinding.DiffDetailsFragmentBinding
 import com.pnuema.android.githubprviewer.diffviewer.viewmodel.DiffViewModel
 
@@ -27,8 +27,9 @@ class DiffDetailsFragment : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         viewModel = ViewModelProvider(requireActivity()).get(DiffViewModel::class.java)
 
         binding.diffMetaAuthor.text = viewModel.diffMetaData.author
@@ -38,11 +39,11 @@ class DiffDetailsFragment : Fragment() {
         binding.diffMetaPrNumber.text = getString(R.string.meta_pr_number_format, viewModel.diffMetaData.number)
 
         context?.let {
-            GlideApp.with(it)
-                    .load(viewModel.diffMetaData.avatarUrl)
-                    .apply(RequestOptions.circleCropTransform())
-                    .placeholder(ContextCompat.getDrawable(it, R.drawable.account))
-                    .into(binding.diffMetaAuthorAvatar)
+            Glide.with(it)
+                .load(viewModel.diffMetaData.avatarUrl)
+                .apply(RequestOptions.circleCropTransform())
+                .placeholder(ContextCompat.getDrawable(it, R.drawable.account))
+                .into(binding.diffMetaAuthorAvatar)
         }
 
         binding.diffMetaLinkToGithubPr.setOnClickListener {

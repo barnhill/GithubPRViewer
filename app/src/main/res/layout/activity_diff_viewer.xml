@@ -23,7 +23,7 @@
             app:contentScrim="?attr/colorPrimary"
             app:statusBarScrim="?attr/colorPrimary">
 
-            <fragment
+            <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/pr_details_container"
                 android:name="com.pnuema.android.githubprviewer.diffviewer.ui.DiffDetailsFragment"
                 android:layout_width="match_parent"

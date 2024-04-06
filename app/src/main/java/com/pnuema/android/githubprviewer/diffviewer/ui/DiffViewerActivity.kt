@@ -57,6 +57,7 @@ class DiffViewerActivity : AppCompatActivity() {
             adapter.setItems(DiffListBuilder(DiffParser(diff)).buildDataList())
             loadingIndicator.isRefreshing = false
         })
+
         viewModel.getDiffFile()
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -64,7 +65,7 @@ class DiffViewerActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
+        onBackPressedDispatcher.onBackPressed()
         return true
     }
 
